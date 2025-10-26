@@ -31,7 +31,7 @@ services:
   frontend:
     build:
       context: ./node-docker-frontend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile  
     container_name: frontend
     ports:
       - "3000:3000"
