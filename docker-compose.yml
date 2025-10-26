@@ -14,7 +14,7 @@ services:
   backend:
     build:
       context: ./node-docker-backend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     container_name: backend
     ports:
       - "5000:5000"
@@ -31,7 +31,7 @@ services:
   frontend:
     build:
       context: ./node-docker-frontend
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     container_name: frontend
     ports:
       - "3000:3000"
