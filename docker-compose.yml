@@ -1,0 +1,49 @@
+version: '3.9'
+
+services:
+  mongo:
+    image: mongo:6.0
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    restart: always
+
+
+  backend:
+    build:
+      context: ./node-docker-backend
+      dockerfile: Dockerfile.dev
+    container_name: backend
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./node-docker-backend:/app
+      - /app/node_modules
+    env_file:
+      - ./node-docker-backend/.env
+    restart: always
+    depends_on:
+      - mongo
+
+
+  frontend:
+    build:
+      context: ./node-docker-frontend
+      dockerfile: Dockerfile.dev
+    container_name: frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./node-docker-frontend:/app      # mount code for live reload
+      - /app/node_modules                # prevent overwriting container node_modules
+    environment:
+      - CHOKIDAR_USEPOLLING=true         # file watch fix for Docker
+    depends_on:
+      - backend
+    restart: always
+
+
+volumes:
+  mongo-data:
